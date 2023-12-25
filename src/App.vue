@@ -1,5 +1,5 @@
 <script setup>
-  import Budget from './components/Budget.vue';
+  import Budget from './components/Budget.vue'
 </script>
 
 <template>

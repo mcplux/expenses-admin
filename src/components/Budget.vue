@@ -1,9 +1,26 @@
 <script setup>
+  import { ref } from 'vue'
+  import Alert from './Alert.vue'
 
+  const budget = ref(0)
+  const error = ref('')
+  const defineBudget = () => {
+    if(budget.value <= 0) {
+      error.value = 'Presupuesto no válido'
+
+      setTimeout(() => {
+        error.value = ''
+      }, 3000);
+    }
+  }
 </script>
 
 <template>
-  <form class="budget">
+  <form class="budget" @submit.prevent="defineBudget">
+    <Alert v-if="error">
+      {{ error }}
+    </Alert>
+
     <div class="field">
       <label for="new-budget">Definir presupuesto</label>
       <input 
@@ -12,6 +29,8 @@
         id="new-budget"
         placeholder="Añade tu presupuesto"
         class="new-budget"
+        min="0"
+        v-model.number="budget"
       />
     </div>
     <input type="submit" value="Definir presupuesto">
