@@ -2,6 +2,7 @@
   import { ref } from 'vue'
   import Budget from './components/Budget.vue'
   import BudgetControl from './components/BudgetControl.vue'
+  import newExpenseIcon from './assets/img/nuevo-gasto.svg'
 
   const budget = ref(0)
   const available = ref(0)
@@ -29,6 +30,12 @@
         />
       </div>
     </header>
+
+    <main v-if="budget > 0">
+      <div class="add-expense">
+        <img :src="newExpenseIcon" alt="Expense Icon">
+      </div>
+    </main>
   </div>
 </template>
 
@@ -87,5 +94,14 @@
     background-color: var(--white);
     border-radius: 1.2rem;
     padding: 5rem;
+  }
+  .add-expense {
+    position: fixed;
+    bottom: 5rem;
+    right: 5rem;
+  }
+  .add-expense img {
+    width: 5rem;
+    cursor: pointer;
   }
 </style>
