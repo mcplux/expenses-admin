@@ -1,15 +1,34 @@
 <script setup>
-  import { ref } from 'vue'
+  import { reactive, ref } from 'vue'
   import Budget from './components/Budget.vue'
   import BudgetControl from './components/BudgetControl.vue'
+  import Modal from './components/Modal.vue'
   import newExpenseIcon from './assets/img/nuevo-gasto.svg'
 
+  const modal = reactive({
+    show: false,
+    animate: false,
+  })
   const budget = ref(0)
   const available = ref(0)
 
-  const defineBudget = (number) => {
+  const defineBudget = number => {
     budget.value = number
     available.value = number
+  }
+
+  const showModal = () => {
+    Object.assign(modal, {
+      show: true,
+      animate: true,
+    })
+  }
+
+  const hideModal = () => {
+    Object.assign(modal, {
+      show: false,
+      animate: false,
+    })
   }
 </script>
 
@@ -33,8 +52,17 @@
 
     <main v-if="budget > 0">
       <div class="add-expense">
-        <img :src="newExpenseIcon" alt="Expense Icon">
+        <img 
+          :src="newExpenseIcon" 
+          alt="Expense Icon" 
+          @click="showModal"
+        />
       </div>
+
+      <Modal 
+        v-if="modal.show"
+        @hide-modal="hideModal"
+      />
     </main>
   </div>
 </template>
