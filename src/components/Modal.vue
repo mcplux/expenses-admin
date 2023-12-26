@@ -2,6 +2,12 @@
   import closeModal from '../assets/img/cerrar.svg'
 
   const emit = defineEmits(['hide-modal'])
+  const props = defineProps({
+    modal: {
+      type: Object,
+      required: true,
+    },
+  })
 </script>
 
 <template>
@@ -13,7 +19,8 @@
         @click="$emit('hide-modal')"
       />
     </div>
-    <div class="container">
+
+    <div class="container form-container" :class="[modal.animate ? 'animate' : 'close']">
       <form class="new-expense">
         <legend>Añadir gasto</legend>
         <div class="field">
@@ -74,6 +81,18 @@
     width: 3rem;
     cursor: pointer;
 
+  }
+  .form-container {
+    transition-property: all;
+    transition-duration: 300ms;
+    transition-timing-function: ease-in;
+    opacity: 0;
+  }
+  .form-container.animate {
+    opacity: 1;
+  }
+  .form-container.close {
+    opacity: 0;
   }
   .new-expense {
     margin: 10rem auto 0 auto;

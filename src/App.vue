@@ -18,17 +18,17 @@
   }
 
   const showModal = () => {
-    Object.assign(modal, {
-      show: true,
-      animate: true,
-    })
+    modal.show = true
+    setTimeout(() => {
+      modal.animate = true
+    }, 300)
   }
 
   const hideModal = () => {
-    Object.assign(modal, {
-      show: false,
-      animate: false,
-    })
+    modal.animate = false
+    setTimeout(() => {
+      modal.show = false
+    }, 300)
   }
 </script>
 
@@ -62,6 +62,7 @@
       <Modal 
         v-if="modal.show"
         @hide-modal="hideModal"
+        :modal="modal"
       />
     </main>
   </div>
