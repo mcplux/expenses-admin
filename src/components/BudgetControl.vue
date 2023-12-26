@@ -1,5 +1,17 @@
 <script setup>
   import image from '../assets/img/grafico.jpg'
+  import { formatMoney } from '../helpers'
+
+  const props = defineProps({
+    available: {
+      type: Number,
+      required: true,
+    },
+    budget: {
+      type: Number,
+      required: true,
+    },
+  })
 </script>
 
 <template>
@@ -12,12 +24,12 @@
 
       <p>
         <span>Presupuesto: </span>
-        $0
+        {{ formatMoney(budget) }}
       </p>
 
       <p>
         <span>Disponible: </span>
-        $0
+        {{ formatMoney(available) }}
       </p>
 
       <p>

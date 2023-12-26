@@ -4,8 +4,11 @@
   import BudgetControl from './components/BudgetControl.vue'
 
   const budget = ref(0)
+  const available = ref(0)
+
   const defineBudget = (number) => {
     budget.value = number
+    available.value = number
   }
 </script>
 
@@ -21,6 +24,8 @@
 
         <BudgetControl
           v-else
+          :budget="budget"
+          :available="available"
         />
       </div>
     </header>
