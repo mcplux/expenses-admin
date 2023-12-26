@@ -1,13 +1,59 @@
 <script setup>
+  import { ref } from 'vue'
+  import Alert from './Alert.vue'
   import closeModal from '../assets/img/cerrar.svg'
 
-  const emit = defineEmits(['hide-modal'])
+  const error = ref('')
+
+  const emit = defineEmits(['hide-modal', 'save-expense', 'update:name', 'update:expense', 'update:category'])
   const props = defineProps({
     modal: {
       type: Object,
       required: true,
     },
+    name: {
+      type: String,
+      required: true,
+    },
+    expense: {
+      type: [String, Number],
+      required: true,
+    },
+    category: {
+      type: String,
+      required: true,
+    },
   })
+
+  const addExpense = () => {
+    // Validate empty fields
+    const { expense, category, name } = props
+    if([name, expense, category].includes('')) {
+      error.value = 'Todos los campos son obligatorios'
+
+      setTimeout(() => {
+        error.value = ''
+      }, 3000);
+      setTimeout(() => {
+        error.value = ''
+      }, 3000);
+      
+      return
+    }
+
+    //Validate amount
+    if(expense <= 0) {
+      error.value = 'El gasto debe ser mayor que 0'
+
+      setTimeout(() => {
+        error.value = ''
+      }, 3000);
+      
+      return
+    }
+
+    emit('save-expense')
+  }
 </script>
 
 <template>
@@ -21,31 +67,43 @@
     </div>
 
     <div class="container form-container" :class="[modal.animate ? 'animate' : 'close']">
-      <form class="new-expense">
+      <form class="new-expense" @submit.prevent="addExpense">
         <legend>Añadir gasto</legend>
+        <Alert v-if="error">{{ error }}</Alert>
         <div class="field">
           <label for="name">Nombre</label>
           <input 
             type="text"
             id="name"
+            name="name"
             placeholder="Añade el nombre del gasto" 
+            :value="name"
+            @input="$emit('update:name', $event.target.value)"
           />
         </div>
 
         <div class="field">
-          <label for="number">Cantidad</label>
+          <label for="expense">Cantidad</label>
           <input 
             type="number"
-            id="number"
-            placeholder="Añade la cantidad del gasto. Ej. 400" 
+            id="expense"
+            name="expense"
+            placeholder="Añade la cantidad del gasto. Ej. 400"
+            :value="expense"
+            @input="$emit('update:expense', +$event.target.value)"
           />
         </div>
 
         <div class="field">
           <label for="category">Categoría</label>
-          <select name="category" id="category">
+          <select 
+            name="category" 
+            id="category" 
+            :value="category" 
+            @input="$emit('update:category', $event.target.value)"
+          >
             <option value="" selected disabled>---Seleccione una opción---</option>
-            <option value="saving">Ahorro</option>
+            <option value="savings">Ahorro</option>
             <option value="food">Comida</option>
             <option value="enterteiment">Entretenimiento</option>
             <option value="health">Salud</option>
