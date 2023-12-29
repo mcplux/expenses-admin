@@ -1,5 +1,5 @@
 <script setup>
-  import { reactive, ref } from 'vue'
+  import { reactive, ref, watch } from 'vue'
   import Budget from './components/Budget.vue'
   import BudgetControl from './components/BudgetControl.vue'
   import Modal from './components/Modal.vue'
@@ -13,6 +13,7 @@
   })
   const budget = ref(0)
   const available = ref(0)
+  const spent = ref(0)
   const expense = reactive({
     name: '',
     expense: '',
@@ -21,6 +22,15 @@
     date: Date.now(),
   })
   const expenses = ref([])
+
+  watch(expenses, () => {
+    const totalSpent = expenses.value.reduce((total, expense) => expense.expense + total, 0)
+
+    spent.value = totalSpent
+    available.value = budget.value - totalSpent
+  }, {
+    deep: true,
+  })
 
   const defineBudget = number => {
     budget.value = number
@@ -74,6 +84,7 @@
           v-else
           :budget="budget"
           :available="available"
+          :spent="spent"
         />
       </div>
     </header>

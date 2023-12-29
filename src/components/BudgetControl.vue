@@ -11,6 +11,10 @@
       type: Number,
       required: true,
     },
+    spent: {
+      type: Number,
+      required: true,
+    },
   })
 </script>
 
@@ -34,7 +38,7 @@
 
       <p>
         <span>Gastado: </span>
-        $0
+        {{ formatMoney(spent) }}
       </p>
     </div>
   </div>  
