@@ -32,6 +32,14 @@
     deep: true,
   })
 
+  watch(modal, () => {
+    if(!modal.show) {
+      restartExpenseState()
+    }
+  }, {
+    deep: true,
+  })
+
   const defineBudget = number => {
     budget.value = number
     available.value = number
@@ -52,14 +60,23 @@
   }
 
   const saveExpense = () => {
-    expenses.value.push({
-      ...expense,
-      id: generateId(),
-    })
+    if(expense.id) {
+      const { id } = expense
+      const i = expenses.value.findIndex(expense => expense.id === id)
+
+      expenses.value[i] = {...expense}
+    } else {
+      expenses.value.push({
+        ...expense,
+        id: generateId(),
+      })
+    }
 
     hideModal()
+    restartExpenseState()
+  }
 
-    // Restart object
+  const restartExpenseState = () => {
     Object.assign(expense, {
       name: '',
       expense: '',
@@ -67,6 +84,13 @@
       id: null,
       date: Date.now(),
     })
+  }
+
+  const selectExpense = id => {
+    const expenseEdit = expenses.value.filter(expense => expense.id === id)[0]
+
+    Object.assign(expense, expenseEdit)
+    showModal()
   }
 </script>
 
@@ -97,6 +121,7 @@
           v-for="expense in expenses"
           :key="expense.id"
           :expense="expense"
+          @select-expense="selectExpense"
         />
       </div>
 
@@ -114,6 +139,7 @@
         @save-expense="saveExpense"
         :modal="modal"
         :available="available"
+        :id="expense.id"
         v-model:name="expense.name"
         v-model:expense="expense.expense"
         v-model:category="expense.category"

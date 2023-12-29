@@ -1,5 +1,5 @@
 <script setup>
-  import { ref } from 'vue'
+  import { computed, ref } from 'vue'
   import Alert from './Alert.vue'
   import closeModal from '../assets/img/cerrar.svg'
 
@@ -27,11 +27,17 @@
       type: Number,
       required: true,
     },
+    id: {
+      type: [String, null],
+      required: true,
+    },
   })
+
+  const old = props.expense
 
   const addExpense = () => {
     // Validate empty fields
-    const { expense, category, name, available } = props
+    const { expense, category, name, available, id } = props
     if([name, expense, category].includes('')) {
       error.value = 'Todos los campos son obligatorios'
 
@@ -56,19 +62,34 @@
       return
     }
 
-    // Validate that user does not spend more than the budget
-    if(expense > available) {
-      error.value = 'Has exedido el presupuesto'
 
-      setTimeout(() => {
-        error.value = ''
-      }, 3000);
-      
-      return
+    // Validate that user does not spend more than the budget
+    if(id) {
+      if(expense > old + available) {
+        error.value = 'Has exedido el presupuesto'
+
+        setTimeout(() => {
+          error.value = ''
+        }, 3000);
+        
+        return
+      }
+    } else {
+      if(expense > available) {
+        error.value = 'Has exedido el presupuesto'
+
+        setTimeout(() => {
+          error.value = ''
+        }, 3000);
+        
+        return
+      }
     }
 
     emit('save-expense')
   }
+
+  const isEditing = computed(() => props.id)
 </script>
 
 <template>
@@ -83,7 +104,7 @@
 
     <div class="container form-container" :class="[modal.animate ? 'animate' : 'close']">
       <form class="new-expense" @submit.prevent="addExpense">
-        <legend>Añadir gasto</legend>
+        <legend>{{ isEditing ? 'Editar gasto' : 'Añadir gastos' }}</legend>
         <Alert v-if="error">{{ error }}</Alert>
         <div class="field">
           <label for="name">Nombre</label>
@@ -129,7 +150,7 @@
 
         <input 
           type="submit" 
-          value="Añadir gasto"
+          :value="[isEditing ? 'Guardar cambios' : 'Añadir gasto']"
         />
       </form>
     </div>
