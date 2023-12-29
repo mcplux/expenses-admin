@@ -113,6 +113,7 @@
         @hide-modal="hideModal"
         @save-expense="saveExpense"
         :modal="modal"
+        :available="available"
         v-model:name="expense.name"
         v-model:expense="expense.expense"
         v-model:category="expense.category"

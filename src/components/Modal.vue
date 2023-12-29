@@ -23,11 +23,15 @@
       type: String,
       required: true,
     },
+    available: {
+      type: Number,
+      required: true,
+    },
   })
 
   const addExpense = () => {
     // Validate empty fields
-    const { expense, category, name } = props
+    const { expense, category, name, available } = props
     if([name, expense, category].includes('')) {
       error.value = 'Todos los campos son obligatorios'
 
@@ -44,6 +48,17 @@
     //Validate amount
     if(expense <= 0) {
       error.value = 'El gasto debe ser mayor que 0'
+
+      setTimeout(() => {
+        error.value = ''
+      }, 3000);
+      
+      return
+    }
+
+    // Validate that user does not spend more than the budget
+    if(expense > available) {
+      error.value = 'Has exedido el presupuesto'
 
       setTimeout(() => {
         error.value = ''
