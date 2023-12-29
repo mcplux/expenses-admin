@@ -61,7 +61,7 @@
 </script>
 
 <template>
-  <div>
+  <div :class="{fixed: modal.show}" >
     <header>
       <h1>Planificador de gastos</h1>
       <div class="container-header container shadow">
@@ -140,6 +140,10 @@
   }
   h2 {
     font-size: 3rem;
+  }
+  .fixed {
+    overflow: hidden;
+    height: 100vh;
   }
   header {
     background-color: var(--blue);

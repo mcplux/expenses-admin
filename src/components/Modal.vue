@@ -103,11 +103,11 @@
             @input="$emit('update:category', $event.target.value)"
           >
             <option value="" selected disabled>---Seleccione una opción---</option>
-            <option value="savings">Ahorro</option>
+            <option value="saving">Ahorro</option>
             <option value="food">Comida</option>
             <option value="enterteiment">Entretenimiento</option>
             <option value="health">Salud</option>
-            <option value="subscriptions">Suscripciones</option>
+            <option value="subscription">Suscripciones</option>
             <option value="others">Otros</option>
           </select>
         </div>
