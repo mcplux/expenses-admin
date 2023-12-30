@@ -1,9 +1,10 @@
 <script setup>
-  import { reactive, ref, watch } from 'vue'
+  import { computed, reactive, ref, watch } from 'vue'
   import Budget from './components/Budget.vue'
   import BudgetControl from './components/BudgetControl.vue'
   import Modal from './components/Modal.vue'
   import Expense from './components/Expense.vue'
+  import Filter from './components/Filter.vue'
   import { generateId } from './helpers'
   import newExpenseIcon from './assets/img/nuevo-gasto.svg'
 
@@ -14,6 +15,7 @@
   const budget = ref(0)
   const available = ref(0)
   const spent = ref(0)
+  const filter = ref('')
   const expense = reactive({
     name: '',
     expense: '',
@@ -101,6 +103,14 @@
       hideModal()
     }
   }
+  
+  const filteredExpenses = computed(() => {
+    if(filter.value) {
+      return expenses.value.filter(expense => expense.category === filter.value)
+    }
+
+    return expenses.value
+  })
 </script>
 
 <template>
@@ -123,11 +133,15 @@
     </header>
 
     <main v-if="budget > 0">
+      <Filter 
+        v-model:filter="filter"
+      />
+
       <div class="list-expenses container">
-        <h2>{{ expenses.length > 0 ? 'Gastos' : 'Aún no hay gastos' }}</h2>
+        <h2>{{ filteredExpenses.length > 0 ? 'Gastos' : 'No hay gastos' }}</h2>
 
         <Expense 
-          v-for="expense in expenses"
+          v-for="expense in filteredExpenses"
           :key="expense.id"
           :expense="expense"
           @select-expense="selectExpense"
