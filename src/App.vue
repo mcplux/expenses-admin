@@ -1,5 +1,5 @@
 <script setup>
-  import { computed, reactive, ref, watch } from 'vue'
+  import { computed, onMounted, reactive, ref, watch } from 'vue'
   import Budget from './components/Budget.vue'
   import BudgetControl from './components/BudgetControl.vue'
   import Modal from './components/Modal.vue'
@@ -30,6 +30,9 @@
 
     spent.value = totalSpent
     available.value = budget.value - totalSpent
+
+    // Save to local storage
+    localStorage.setItem('expenses', JSON.stringify(expenses.value))
   }, {
     deep: true,
   })
@@ -40,6 +43,21 @@
     }
   }, {
     deep: true,
+  })
+
+  watch(budget, () => {
+    localStorage.setItem('budget', budget.value)
+  })
+
+  onMounted(() => {
+    if(localStorage.getItem('budget')) {
+      budget.value = Number(localStorage.getItem('budget'))
+      available.value = Number(localStorage.getItem('budget'))
+    }
+
+    if(localStorage.getItem('expenses')) {
+      expenses.value = JSON.parse(localStorage.getItem('expenses'))
+    }
   })
 
   const defineBudget = number => {
