@@ -92,6 +92,15 @@
     Object.assign(expense, expenseEdit)
     showModal()
   }
+
+  const deleteExpense = () => {
+    const { id } = expense
+
+    if(confirm(`¿Deseas eliminar el gasto ${expense.name}?`)) {
+      expenses.value = expenses.value.filter(expense => expense.id !== id)
+      hideModal()
+    }
+  }
 </script>
 
 <template>
@@ -137,6 +146,7 @@
         v-if="modal.show"
         @hide-modal="hideModal"
         @save-expense="saveExpense"
+        @delete-expense="deleteExpense"
         :modal="modal"
         :available="available"
         :id="expense.id"
