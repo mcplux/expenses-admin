@@ -129,6 +129,13 @@
 
     return expenses.value
   })
+
+  const resetApp = () => {
+    if(confirm('¿Deseas reiniciar la aplicación?')) {
+      expenses.value = []
+      budget.value = 0
+    }
+  }
 </script>
 
 <template>
@@ -146,6 +153,7 @@
           :budget="budget"
           :available="available"
           :spent="spent"
+          @reset-app="resetApp"
         />
       </div>
     </header>
