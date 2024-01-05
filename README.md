@@ -1,7 +1,35 @@
-# Vue 3 + Vite
+# Administrador de gastos
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## Descripción
+Con esta aplicación web puedes crear un presupuesto o mantener el control de los gastos.
 
-## Recommended IDE Setup
+## Funciones clave
+- Definir un presupuesto.
+- Crear, leer, editar y eliminar gastos.
+- Los datos son persistentes, pues se almacenan en localStorage.
+- Reiniciar la aplicación.
+- Filtrar los gastos por categorías.
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+## Capturas de pantalla
+![Definir presupuesto](/screenshots/define-budget.png)
+![Sin gastos](/screenshots/no-expenses.png)
+![Añadir gasto](/screenshots/add-expense.png)
+![Leer gasto](/screenshots/read-expenses.png)
+![Editar gasto](/screenshots/update-expenses.png)
+
+## Stack
+- **Vue y JavaScript**: Para toda la funcionalidad de la aplicación.
+- **CSS**: Los estilos del proyecto se manejan directamente en los componentes de vue.
+
+## Uso
+Para acceder al proyecto lo puedes hacer desde el navegador haciendo clic [aquí](https://expense-admin.netlify.app/).
+
+1. Abre el link.
+2. Define un presupuesto.
+3. Añade gastos.
+4. Para editar un gasto puedes hacer clic en el nombre del gasto en cuestión.
+5. Para eliminar un gasto, abres el gasto y clic en Eliminar.
+
+---
+
+Este proyecto se realizó para practicar el uso de estilos dentro de los componentes de Vue.
