@@ -15,7 +15,7 @@ Con esta aplicación web puedes crear un presupuesto o mantener el control de lo
 ![Sin gastos](/screenshots/no-expenses.png)
 ![Añadir gasto](/screenshots/add-expense.png)
 ![Leer gasto](/screenshots/read-expenses.png)
-![Editar gasto](/screenshots/update-expenses.png)
+![Editar gasto](/screenshots/update-expense.png)
 
 ## Stack
 - **Vue y JavaScript**: Para toda la funcionalidad de la aplicación.
